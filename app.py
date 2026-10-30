@@ -2,6 +2,7 @@
 
   python app.py             -> modo local: só este computador (http://localhost:PORTA)
   python app.py --producao  -> servidor da empresa: Waitress, aceita acesso da rede
+  python app.py --testar    -> testa a conexão com o banco de cada loja do .env (diagnóstico)
 
 Quais lojas são consultadas é decidido por LOJAS no .env.
 O navegador recebe os itens do mês e faz os filtros (loja, setor, motivo, depósito) sozinho.
@@ -127,7 +128,39 @@ def porta_em_uso(porta):
         return s.connect_ex(("127.0.0.1", porta)) == 0
 
 
+def testar_conexao():
+    """Diagnóstico para rodar no servidor: lojas do .env, nome do servidor na rede e uma consulta simples.
+
+    O erro completo do driver sai no log (sem a senha), para saber por que a conexão falhou.
+    """
+    from painel.banco import consultar
+    from painel.config import credenciais
+
+    print(f"LOJAS no .env: {', '.join(u['slug'] for u in LOJAS) or '(nenhuma)'}")
+    if LOJAS_DESCONHECIDAS:
+        print(f"  Não existem em config/regras.json: {', '.join(LOJAS_DESCONHECIDAS)}")
+    falhas = 0
+    for u in LOJAS:
+        print(f"\n{u['nome']}  (servidor {u['servidor']}, banco {u['banco']})")
+        usuario, senha = credenciais(u)
+        print(f"  usuário/senha no .env: {'preenchidos' if usuario and senha else 'FALTANDO'}")
+        try:
+            print(f"  nome na rede: {u['servidor']} -> {socket.gethostbyname(u['servidor'])}")
+        except OSError:
+            print(f"  nome na rede: {u['servidor']} NÃO encontrado (DNS) — tente o IP do servidor em config/regras.json")
+        try:
+            linha = consultar(u, "SELECT TOP 1 Codigo, Data FROM Movimentacao ORDER BY Codigo DESC", (),
+                              u.get("timeout", 30))
+            print(f"  banco OK — última movimentação: {linha[0]['Codigo'] if linha else '(nenhuma)'}")
+        except ErroBanco as e:
+            falhas += 1
+            print(f"  FALHOU: {e} (o erro completo está na linha acima)")
+    return 1 if falhas or not LOJAS else 0
+
+
 if __name__ == "__main__":
+    if "--testar" in sys.argv:
+        sys.exit(testar_conexao())
     if porta_em_uso(PORTA):
         print(f"ERRO: a porta {PORTA} já está em uso.", file=sys.stderr)
         sys.exit(PORTA_OCUPADA)
