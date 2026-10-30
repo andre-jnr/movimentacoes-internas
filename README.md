@@ -19,6 +19,9 @@ Sobe sozinho ao ligar o computador (tarefa agendada "Movimentacoes internas (300
 e fica acessível em http://NOME-DO-SERVIDOR:3009. Log: `logs\servidor.log`.
 O servidor precisa enxergar os bancos das lojas listadas em `LOJAS` (mesma rede do Relatório gerencial).
 Para atualizar: copie os arquivos novos e rode o `instalar.bat` de novo.
+Servidor com internet ruim (erro `IncompleteRead` no pip): leve junto a pasta `servidor\pacotes` (pacotes prontos para
+Python 3.15, Windows 64 bits). Com ela, o instalador não baixa nada. Para gerar de novo, num computador com internet:
+`python -m pip download --only-binary :all: --python-version 3.15 --platform win_amd64 -r requirements.txt -d servidor/pacotes`
 Para remover: `servidor\desinstalar.bat` (não apaga dados).
 
 ## O que a página mostra

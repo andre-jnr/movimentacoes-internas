@@ -111,7 +111,12 @@ if ($TIPO -eq "python") {
         if ($LASTEXITCODE -ne 0) { Falha "não consegui criar o .venv." }
     }
     # --only-binary: só instala pacotes prontos, nunca tenta compilar (o que exigiria o Visual C++)
-    & $pythonVenv -m pip install --disable-pip-version-check -q --only-binary :all: -r (Join-Path $raiz "requirements.txt")
+    # --retries/--timeout: internet instável derruba o download no meio (IncompleteRead); o pip tenta de novo
+    # servidor\pacotes (opcional): pacotes baixados antes, instalados sem internet
+    $pacotes = Join-Path $PSScriptRoot "pacotes"
+    $origem = if (Test-Path $pacotes) { Write-Host "    usando os pacotes de servidor\pacotes (sem internet)"; @("--no-index", "--find-links", $pacotes) }
+              else { @("--retries", "10", "--timeout", "120") }
+    & $pythonVenv -m pip install --disable-pip-version-check -q --only-binary :all: @origem -r (Join-Path $raiz "requirements.txt")
     if ($LASTEXITCODE -ne 0) {
         Falha "falha ao instalar as dependências (requirements.txt). Se algum pacote não tem versão pronta para este Python, troque o pacote ou use outra versão do Python."
     }
