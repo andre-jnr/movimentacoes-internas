@@ -21,7 +21,7 @@
   "deposito_padrao": "Loja",
 
   "_quadros": "Tabelas separadas (setor × depósito), nesta ordem. A regra de motivo com \"quadro\" manda a saída para essa tabela; sem \"quadro\" ela fica na tabela principal. \"linha\" troca o setor pelo rótulo da linha (ex.: tipo de marmita). \"tipo\" é a segmentação ao abrir uma linha (Retirada, Aproveitamento, Funcionários...); sem \"tipo\", vale o motivo.",
-  "quadros": ["Avarias", "Lanche dos funcionários", "Marmitas", "Desagregações", "Saídas para transferências"],
+  "quadros": ["Avarias", "Lanche dos funcionários", "Marmitas", "Desagregações", "Saídas para transferências", "Outras saídas"],
 
   "_motivos": "Motivo e setor pelo tipo de saída (Mov_Desc.Descricao, sem acento). A primeira regra cujo 'contem' aparece na descrição vale. Sem regra: motivo = descrição do sistema, setor = 'Outros'. Só entram motivos de saída (Mov_Desc.E_S = 'S').",
   "motivos": [
@@ -41,6 +41,9 @@
     { "contem": "VENCIDOS",                    "motivo": "Vencimento",              "setor": "Loja - Salão" },
     { "contem": "AVARIA",                      "motivo": "Avaria",                  "setor": "Loja - Salão", "quadro": "Avarias" },
     { "contem": "DESAGREGA",                   "motivo": "Desagregação",            "setor": "Hortifruti",   "quadro": "Desagregações" },
+    { "contem": "FATIADOS E MIX",              "motivo": "Desagregação",            "setor": "Fatiados e mix", "quadro": "Desagregações", "tipo": "Fatiados e mix" },
+    { "contem": "AJUSTE DE ESTOQUE",           "motivo": "Outras saídas",           "setor": "Ajuste de estoque", "quadro": "Outras saídas", "tipo": "Ajuste de estoque" },
+    { "contem": "OUTRAS SAIDAS P/PRODUCAO",    "motivo": "Outras saídas",           "setor": "Saídas p/ produção", "quadro": "Outras saídas", "tipo": "Saídas p/ produção" },
     { "contem": "USO PROPRIO",                 "motivo": "Consumo da loja",         "setor": "Loja - Salão" },
     { "contem": "RETIRADA PARA COZINHA",       "motivo": "Consumo",                 "setor": "Cozinha", "tipo": "Retirada" },
     { "contem": "RETIRADA PARA TEMPERADO",     "motivo": "Consumo",                 "setor": "Temperado", "tipo": "Retirada" },

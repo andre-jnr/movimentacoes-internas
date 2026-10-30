@@ -29,7 +29,7 @@ Para remover: `servidor\desinstalar.bat` (não apaga dados).
 - **Filtros:** mês e ano (abre sempre no mês atual), setor, motivo e depósito. Com mais de uma loja em `LOJAS`, aparece também o filtro de loja.
 - **Setor × depósito:** os códigos das movimentações (Nº) na frente de cada setor, o valor de cada depósito e os totais
   por linha e por coluna. Mostra o consumo e as demais saídas, menos as que têm tabela própria. Tem botão **CSV**.
-- **Avarias, Lanche dos funcionários, Marmitas, Desagregações e Saídas para transferências:** uma tabela no mesmo formato para cada uma
+- **Avarias, Lanche dos funcionários, Marmitas, Desagregações (inclui fatiados e mix), Saídas para transferências e Outras saídas (ajuste de estoque, saídas p/ produção):** uma tabela no mesmo formato para cada uma
   (as marmitas separadas em funcionários e obra). Somando todas as tabelas, chega-se ao total do mês, sem contar nada duas vezes.
 - **Abrir as linhas:** clicar num setor mostra a divisão por tipo — **Retirada**, **Aproveitamento**, **Funcionários**
   (almoço, lanche e marmitas dos funcionários), Vencimento, Transferência... — com códigos, valor por depósito e % do setor.
